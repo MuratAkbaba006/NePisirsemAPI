@@ -19,9 +19,6 @@ const cpupload=upload.fields([{
 const Meal=require('../models/Meal');
 const Fav=require('../models/Fav');
 
-function createId(){
-    return new Date().getTime().toString();
-  };
 
 
 router.post('/',cpupload,async (req, res, next) =>{
