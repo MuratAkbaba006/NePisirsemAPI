@@ -30,8 +30,8 @@ router.post('/',cpupload,async (req, res, next) =>{
     const {meal_name,time,cuisine,ingredients,recipe}=req.body;
     const image=req.files['image'][0].filename;
     const video=req.files['video'][0].filename;
-    const image_path=`https://nepisirsemapi.herokuapp.com//${image}`;
-    const video_path=`https://nepisirsemapi.herokuapp.com//${video}`;
+    const image_path=`https://nepisirsemapi.herokuapp.com/${image}`;
+    const video_path=`https://nepisirsemapi.herokuapp.com/${video}`;
 
    
           
