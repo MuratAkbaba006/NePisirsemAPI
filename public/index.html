@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="main.css" />
+    <title>News Dashboard</title>
+  </head>
+
+  <body>
+    <div class="form-container">
+      <h1 class="heading">Post Your News</h1>
+
+      <p class="message">Error</p>
+      <form  action="/api/meal" class="form" enctype="multipart/form-data" method="post">
+        <!--burada encytpe="multipart/form-data" diyerek form submit edildiğinde
+        göndermiş olduğumuz datayı bir dosya(resim) eşliğinde göndermemize olanak sağlar -->
+        <div class="input-container">
+          <input type="text" name="meal_name" id="name" class="input" />
+          <label class="label" for="name">Meal Name <sup>*</sup></label>
+        </div>
+        <div class="input-container">
+          <select name="cuisine" id="cuisine">
+            <option disabled value="0">Cuisine <sup>*</sup></option>
+            <option value="Turkish">Turkish</option>
+            <option value="French">French</option>
+            <option value="German">German</option>
+            <option value="Italian">Italian</option>
+            <option value="Mexican">Mexican</option>
+            <option value="Russian">Russian</option>
+            <option value="Japanese">Japanese</option>
+            <option value="Chinese">Chinese</option>
+          </select>
+        </div>
+        <div class="input-container">
+          <input type="text" name="time" id="time" class="input" />
+          <label class="label" for="time">Time(minute) <sup>*</sup></label>
+        </div>
+        <div class="input-container">
+          <label for="video">Video <sup>*</sup></label>
+          <input type="file" name="video" id="video" />
+        </div>
+        <div class="input-container">
+          <label for="image">Image <sup>*</sup></label>
+          <input type="file" name="image" id="image" />
+        </div>
+        <div class="input-container">
+          <textarea
+            name="recipe"
+            id="recipe"
+            cols="30"
+            rows="10"
+            class="input"
+          ></textarea>
+          <label class="label" for="recipe">Recipe <sup>*</sup></label>
+        </div>
+        <div class="input-container">
+          <select name="ingredients" id="ingredients" multiple>
+            <option value="0">ingredients <sup>*</sup></option>
+            <option value="Onion">Onion</option>
+            <option value="Tomato">Tomato</option>
+            <option value="Garlic">Garlic</option>
+            <option value="Cabbage">Cabbage</option>
+            <option value="Beans">Beans</option>
+            <option value="Egg">Egg</option>
+            <option value="Milk Chocalate">Milk Chocalate</option>
+            <option value="Corn">Corn</option>
+            <option value="Cilantro">Cilantro</option>
+            <option value="Peanut">Peanut</option>
+            <option value="Strawbery">Strawbery</option>
+            <option value="Kiwi">Kiwi</option>
+            <option value="Turkey">Turkey</option>
+            <option value="Oil">Oil</option>
+            <option value="Basil">Basil</option>
+            <option value="Sugar">Sugar</option>
+            <option value="Flour">Flour</option>
+            <option value="Salt">Salt</option>
+            <option value="Baking powder">Baking powder</option>
+            <option value="Vanilla extract">Vanilla extract</option>
+            <option value="Carrot">Carrot</option>
+            <option value="Cucumbers">Cucumbers</option>
+            <option value="Olive oil">Olive oil</option>
+            <option value="Green pepper">Green pepper</option>
+            <option value="Red pepper">Red pepper</option>
+            <option value="Parsley">Parsley</option>
+            <option value="Lemon juice">Lemon juice</option>
+            <option value="Water">Water</option>
+            <option value="Thyme">Thyme</option>
+            <option value="Ground beef">Ground beef</option>
+            <option value="Chicken">Chicken</option>
+            <option value="Parmesan">Parmesan</option>
+            <option value="Cheese">Cheese</option>
+            <option value="Cheddar cheese">Cheddar cheese</option>
+            <option value="Olive">Olive</option>
+            <option value="Sauce">Sauce</option>
+            <option value="Chickpeas">Chickpeas</option>
+            <option value="Rice">Rice</option>
+            <option value="Noddle">Noddle</option>
+          </select>
+        </div>
+        
+        <div class="input-container">
+          <input type="submit" value="SUBMIT" class="btn" />
+        </div>
+      </form>
+      <div class="test"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>
