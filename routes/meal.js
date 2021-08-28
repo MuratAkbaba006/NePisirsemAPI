@@ -51,7 +51,7 @@ router.post('/',cpupload,async (req, res, next) =>{
   
   promise.then((data)=>{
       console.log(data);
-      res.json(req.body);
+      res.send();
   }).catch((err)=>{
       res.json(err);
   })
