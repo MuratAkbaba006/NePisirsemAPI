@@ -27,13 +27,10 @@ app.set('api_secret_key',config.api_secret_key);
 //middleware
 const verifyToken=require('./middleware/verifyToken');
 
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-//app.engine('html',require('ejs').renderFile);
+
 app.set('view engine', 'html');
 
-// app.use(bodyParser.json({limit: '50mb'}));
-// app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
 
 
 app.use(cors());
@@ -47,7 +44,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use('/', indexRouter);
-//app.use('/api',verifyToken);
+app.use('/api',verifyToken);
 app.use('/api/users', usersRouter);
 
 app.use('/api/meal',meal);
