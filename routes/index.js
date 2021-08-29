@@ -17,12 +17,12 @@ router.get('/', (req, res, next)=> {
 });
 
 router.post('/register',(req,res,next)=>{
-  const {name_surname,email,password,profile_image}=req.body;
+  const {name,email,password,profile_image}=req.body;
 
   bcrypt.hash(password,10).then((hash)=>{
 
     const user=new User({
-      name_surname,
+      name,
       email,
       password:hash,
       profile_image
