@@ -31,7 +31,18 @@ router.post('/register',(req,res,next)=>{
     const promise=user.save();
   
     promise.then((user)=>{
-      res.json(user);
+      const payload={
+            
+        email
+      };
+      const token=jwt.sign(payload,req.app.get('api_secret_key'),{
+        expiresIn:72000 //dk cinsinden geçerlilik süresi
+      })
+
+      res.json({
+        status:true,
+        token
+      })
     }).catch((err)=>{
       res.json(err);
     })
