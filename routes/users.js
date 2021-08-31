@@ -32,7 +32,7 @@ router.get('/:user_id', (req, res, next) =>{
       $group:{
         _id:{
           _id:'$_id',
-          name_surname:'$name_surname',
+          name:'$name',
           email:'$email',
           profile_image:'$profile_image'
         },
