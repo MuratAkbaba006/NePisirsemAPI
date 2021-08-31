@@ -19,11 +19,13 @@ router.get('/', (req, res, next)=> {
 router.post('/register',(req,res,next)=>{
   const {name,email,password,profile_image}=req.body;
 
+  const verifymail=email.toLowerCase();
+  
   bcrypt.hash(password,10).then((hash)=>{
 
     const user=new User({
       name,
-      email,
+      email:verifymail,
       password:hash,
       profile_image
     })
@@ -53,9 +55,10 @@ router.post('/register',(req,res,next)=>{
 
 router.post('/login',(req,res,next)=>{
   const {email,password}=req.body;
+  const verifyemail=email.toLowerCase()
   const userId=0;
   User.findOne({
-    email
+    email:verifyemail
   },(err,user)=>{
     if(err)
     throw err

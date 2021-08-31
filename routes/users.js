@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const mongoose=require('mongoose');
-
+const bcrypt=require('bcryptjs');
+const upload=require('../middleware/multer');
 const User=require('../models/User');
 /* GET users listing. */
 router.get('/:user_id', (req, res, next) =>{
@@ -48,8 +49,90 @@ router.get('/:user_id', (req, res, next) =>{
   }).catch((err)=>{
     res.json(err);
   })
-
-
 });
+
+router.put('/mail_update/:user_id',(req,res,next)=>{
+  
+  const userId=req.params.user_id;
+  const promise=User.findByIdAndUpdate(
+    userId,
+    req.body,
+    {
+      new:true
+    }
+  );
+
+  promise.then((user)=>{
+    if(!user)
+    next({message:'The user was not found'});
+
+    res.json({user:user,message:'Email Adresi Başarıyla Güncellendi'})
+  }).catch((err)=>{
+    res.json(err);
+  })
+})
+
+
+router.put('/password_update/:user_id',(req,res,next)=>{
+  const userId=req.params.user_id;
+  const {password,repassword}=req.body;
+  
+
+  if(password !== repassword)
+  {
+    res.json({message:'Girilen Şifreler Eşleşmemektedir'});
+    res.end()
+  }
+  else{
+   bcrypt.hash(password,10).then((hash)=>{
+     
+    const promise=User.findByIdAndUpdate(
+      userId,
+      {password:hash},
+      { new:true}
+    )
+    return promise
+
+    })
+    .then((user)=>{
+      if(!user)
+      next({message:'The user was not found'});
+
+      res.json({user:user,message:'Parola güncelleme işlemi başarılı'})
+    })
+    .catch((err)=>{
+      res.json(err)
+    })
+   
+}})
+
+router.put('/pp_update/:user_id',upload.single('profile_image'),(req,res,next)=>{
+  const userId=req.params.user_id;
+  const profile_image=req.file;
+  const image_path=`https://nepisirsemapi.herokuapp.com/${profile_image.filename}`
+  const promise=User.findByIdAndUpdate(
+    userId,
+    {
+      profile_image:image_path
+    },
+    {
+      new:true
+    }
+  );
+
+  promise.then((user)=>{
+    if(!user)
+    next({message:'The user was not found'});
+
+    res.json({user:user,message:'Profil Fotoğrafı Başarıyla Güncellendi'})
+  }).catch((err)=>{
+    res.json(err);
+  })
+
+
+})
+
+
+
 
 module.exports = router;
