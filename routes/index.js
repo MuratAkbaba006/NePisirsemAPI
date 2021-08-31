@@ -32,7 +32,7 @@ router.post('/register',(req,res,next)=>{
   
     promise.then((user)=>{
       const payload={
-            
+        userId:user._id,    
         email
       };
       const token=jwt.sign(payload,req.app.get('api_secret_key'),{
@@ -53,7 +53,7 @@ router.post('/register',(req,res,next)=>{
 
 router.post('/login',(req,res,next)=>{
   const {email,password}=req.body;
-
+  const userId=0;
   User.findOne({
     email
   },(err,user)=>{
@@ -72,7 +72,7 @@ router.post('/login',(req,res,next)=>{
         }
         else{
           const payload={
-            
+            userId:user._id,
             email
           };
           const token=jwt.sign(payload,req.app.get('api_secret_key'),{
