@@ -75,36 +75,56 @@ router.put('/mail_update/:user_id',(req,res,next)=>{
 
 router.put('/password_update/:user_id',(req,res,next)=>{
   const userId=req.params.user_id;
-  const {password,repassword}=req.body;
-  
+  const {oldpassword,password,repassword}=req.body;
 
-  if(password !== repassword)
-  {
-    res.json({message:'Girilen Şifreler Eşleşmemektedir'});
-    res.end()
-  }
-  else{
-   bcrypt.hash(password,10).then((hash)=>{
-     
-    const promise=User.findByIdAndUpdate(
-      userId,
-      {password:hash},
-      { new:true}
-    )
-    return promise
+  User.findOne({_id:userId},(err,user)=>{
+    if(err)
+    throw err
 
-    })
-    .then((user)=>{
-      if(!user)
-      next({message:'The user was not found'});
-
-      res.json({user:user,message:'Parola güncelleme işlemi başarılı'})
-    })
-    .catch((err)=>{
-      res.json(err)
-    })
-   
-}})
+    if(!user)
+    {
+      res.json({message:'User Not Found'})
+    }
+    else{
+      bcrypt.compare(oldpassword,user.password).then((result)=>{
+        if(!result)
+        {
+          res.json({message:'Parola Bilgisi Hatalı'})
+        }
+        else{
+          if(password !== repassword)
+          {
+            res.json({message:'Girilen Şifreler Eşleşmemektedir'});
+            res.end()
+          }
+          else{
+           bcrypt.hash(password,10).then((hash)=>{
+             
+            const promise=User.findByIdAndUpdate(
+              userId,
+              {password:hash},
+              { new:true}
+            )
+            return promise
+        
+            })
+            .then((user)=>{
+              if(!user)
+              next({message:'The user was not found'});
+        
+              res.json({user:user,message:'Parola güncelleme işlemi başarılı'})
+            })
+            .catch((err)=>{
+              res.json(err)
+            })
+           
+        }
+        }
+      })
+    }
+  })
+ 
+})
 
 router.put('/pp_update/:user_id',upload.single('profile_image'),(req,res,next)=>{
   const userId=req.params.user_id;
