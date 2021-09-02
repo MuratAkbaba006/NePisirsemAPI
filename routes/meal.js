@@ -50,7 +50,8 @@ router.post('/',cpupload,async (req, res, next) =>{
   const promise=meal.save();
   
   promise.then((data)=>{
-      res.sendFile(path.join(__dirname + '/index.html'));
+      console.log('burada hata olduğunu biliyorum');
+      res.sendFile('index.html');
   }).catch((err)=>{
       res.json(err);
   })

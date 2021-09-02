@@ -12,7 +12,7 @@ const MealSchema = new Schema({
     time:{
         type:Number,
         required:false,
-        max:500,
+        max:5000,
         min:5
     },
     cuisine:{
