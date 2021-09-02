@@ -61,7 +61,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use('/', indexRouter);
-app.use('/api',verifyToken);
+//app.use('/api',verifyToken);
 app.use('/api/users', usersRouter);
 
 app.use('/api/meal',meal);
