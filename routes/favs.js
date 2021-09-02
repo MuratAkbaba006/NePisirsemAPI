@@ -35,18 +35,47 @@ router.get('/getfavs/:meal_id',(req,res,next)=>{
 })
 
 router.get('/getfavsforuser/:user_id',(req,res,next)=>{
-    const {user_id}=req.params;
-    const promise=Fav.find({userId:user_id});
+    const {user_id} = req.params;
+    console.log(user_id);
 
-    promise.then((fav)=>{
-        if(!fav)
-        next({message:'not found fav this user'})
+    const promise=Fav.aggregate([
+      
+        {
+           $lookup:{
+               from:'meals',
+               localField:'mealId',
+               foreignField:'_id',
+               as:'data'
+           }
+        },
+        {
+            $unwind:{
+              path:'$data',
+              preserveNullAndEmptyArrays:true
+            }
+        },
+        {
+            $group:{
+                _id:{
+                    _id:'$_id',
+                    userId:'$userId',
+                    mealId:'$mealId'
+                },
+                favs:{
+                    $push:'$data'
+                }
+            }
+        }
 
-        res.json(fav)
+    ])
+
+    promise.then((as)=>{
+        res.json(as)
     }).catch((err)=>{
-        res.json(err);
+        res.json(err)
     })
 })
+
 
 router.delete('/:fav_id',(req,res,next)=>{
 
