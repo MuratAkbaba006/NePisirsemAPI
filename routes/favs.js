@@ -34,6 +34,20 @@ router.get('/getfavs/:meal_id',(req,res,next)=>{
     })
 })
 
+router.get('/getfavsforuser/:user_id',(req,res,next)=>{
+    const {user_id}=req.params;
+    const promise=Fav.find({userId:user_id});
+
+    promise.then((fav)=>{
+        if(!fav)
+        next({message:'not found fav this user'})
+
+        res.json(fav)
+    }).catch((err)=>{
+        res.json(err);
+    })
+})
+
 router.delete('/:fav_id',(req,res,next)=>{
 
     const {fav_id}=req.params;
