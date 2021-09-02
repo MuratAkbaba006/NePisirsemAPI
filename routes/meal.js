@@ -51,8 +51,9 @@ router.post('/',cpupload,async (req, res, next) =>{
   
   promise.then((data)=>{
       console.log('burada hata olduğunu biliyorum');
-      res.sendFile('index.html');
-  }).catch((err)=>{
+      //res.sendFile('index.html');
+      res.json({message:'Yemek ekleme işlemi başarılı'})  
+    }).catch((err)=>{
       res.json(err);
   })
   
