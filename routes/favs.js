@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const mongoose=require('mongoose');
 
 const Fav=require('../models/Fav');
 
@@ -21,7 +22,6 @@ router.post('/',(req,res,next)=>{
 
 router.get('/getfavs/:meal_id',(req,res,next)=>{
     const {meal_id} = req.params;
-    console.log(meal_id);
     const promise=Fav.find({mealId:meal_id})
    
     promise.then((meal)=>{
@@ -36,10 +36,14 @@ router.get('/getfavs/:meal_id',(req,res,next)=>{
 
 router.get('/getfavsforuser/:user_id',(req,res,next)=>{
     const {user_id} = req.params;
-    console.log(user_id);
+    
 
     const promise=Fav.aggregate([
-      
+        {
+            $match:{
+                userId:mongoose.Types.ObjectId(user_id)
+            }
+        },
         {
            $lookup:{
                from:'meals',
