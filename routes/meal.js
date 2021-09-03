@@ -136,7 +136,7 @@ router.get('/cuisine/:cuisine',(req,res,next)=>{
 
     promise.then((meal)=>{
         if(!meal)
-        next({message:'not found any meal from this cuisine'})
+        res.json({message:'not found any meal from this cuisine',status:404})
 
         res.json(meal);
     }).catch((err)=>{
