@@ -159,7 +159,7 @@ router.get('/cuisine/:cuisine',(req,res,next)=>{
     })
 })
 
-router.get('/ingredient',(req,res,next)=>{
+router.post('/ingredient',(req,res,next)=>{
     const {ingredientlist} = req.body;
     const promise=Meal.find({});
     promise.then((meal)=>{
