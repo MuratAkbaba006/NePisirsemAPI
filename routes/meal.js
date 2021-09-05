@@ -132,7 +132,22 @@ router.get('/aggregate',(req,res,next)=>{
 
 router.get('/cuisine/:cuisine',(req,res,next)=>{
     const cuisineName=req.params.cuisine;
-    const promise=Meal.find({cuisine:cuisineName});
+    const promise=Meal.aggregate([
+    {
+        $match:
+        {
+            cuisine:cuisineName
+        }
+      
+    },
+    {
+        $sample:
+        {
+            size:3
+        }
+    }
+
+]);
 
     promise.then((meal)=>{
         if(!meal)
