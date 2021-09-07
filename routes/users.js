@@ -127,6 +127,7 @@ router.put('/password_update/:user_id',(req,res,next)=>{
 })
 
 router.put('/pp_update/:user_id',upload.single('profile_image'),(req,res,next)=>{
+  console.log(req.file);
   const userId=req.params.user_id;
   const profile_image=req.file;
   const image_path=`https://nepisirsemapi.herokuapp.com/${profile_image.filename}`

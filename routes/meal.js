@@ -168,6 +168,7 @@ router.post('/ingredient',(req,res,next)=>{
         const meals=[];
         var sayac=0;
         for(i=0;i<length;i++){
+            sayac=0;
             for(j=0;j<ingredientlistlength;j++)
             {
                 if(meal[i].ingredients.includes(ingredientlist[j]))

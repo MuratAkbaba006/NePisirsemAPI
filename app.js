@@ -51,7 +51,7 @@ app.use(function (req, res, next) {
 });
 
 
-app.use(cors());
+app.use(cors({origin:true,credentials:true}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('uploads'));
 app.use(logger('dev'));
