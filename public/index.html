@@ -4,12 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="main.css" />
-    <title>News Dashboard</title>
+    <title>Add Meal Dashboard</title>
   </head>
 
   <body>
     <div class="form-container">
-      <h1 class="heading">Post Your News</h1>
+      <h1 class="heading">Add Meal</h1>
 
       <p class="message">Error</p>
       <form  action="/api/meal" class="form" enctype="multipart/form-data" method="post">
@@ -56,7 +56,7 @@
         </div>
         <div class="input-container">
           <select name="ingredients" id="ingredients" multiple>
-            <option selected>Malzemeler <sup>*</sup></option>
+            <option disabled>Malzemeler <sup>*</sup></option>
             <option value="Soğan">Soğan</option>
             <option value="Domates">Domates</option>
             <option value="Sarımsak">Sarımsak</option>

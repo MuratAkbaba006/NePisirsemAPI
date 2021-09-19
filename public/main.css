@@ -41,7 +41,7 @@ textarea {
 }
 .label {
   position: absolute;
-  top: 13px;
+  top: -20px;
   left: 10px;
   transition: 0.3s ease;
 }
@@ -54,7 +54,7 @@ textarea {
   font-weight: 600;
 }
 .input:focus ~ .label {
-  top: -20px;
+  
   font-size: 12px;
 }
 .file-label {

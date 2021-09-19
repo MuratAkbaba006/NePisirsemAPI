@@ -10,6 +10,8 @@ const usersRouter = require('./routes/users');
 const meal=require('./routes/meal');
 const favs=require('./routes/favs');
 const ingredients=require('./routes/ingredients');
+var engine = require('consolidate');
+
 
 const cors=require('cors');
 
@@ -28,7 +30,10 @@ app.set('api_secret_key',config.api_secret_key);
 //middleware
 const verifyToken=require('./middleware/verifyToken');
 
-
+//const wiewspath=path.join(__dirname,"./public/index.html")
+//app.set('views', __dirname + '../public');
+//app.engine('html', engine.mustache);
+//app.set("views",wiewspath);
 app.set('view engine', 'html');
 
 app.use(function (req, res, next) {
@@ -62,7 +67,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use('/', indexRouter);
-//app.use('/api',verifyToken);
+app.use('/api',verifyToken);
 app.use('/api/users', usersRouter);
 
 app.use('/api/meal',meal);

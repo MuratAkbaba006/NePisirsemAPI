@@ -114,18 +114,20 @@ router.get('/',(req,res,next)=>{
 
 router.get('/aggregate',(req,res,next)=>{
     
-    Fav.aggregate([
+    const promise=Fav.aggregate([
         {
             $group:{
                 _id:'$mealId',
                 count:{$sum:1}
             }
         }
-    ],(err,result)=>{
-        if(err)
-        res.json(err);
+    ]).sort({count:-1})
 
-        res.json(result)
+    promise.then((meal)=>{
+        console.log(meal);
+        res.json(meal)
+    }).catch((err)=>{
+        res.json(err);
     })
 })
 
@@ -193,46 +195,40 @@ router.post('/ingredient',(req,res,next)=>{
     })
 });
 
-router.get('/random/:rn_count',(req,res,next)=>{
-    const random_number_count=req.params.rn_count;
-    const promise=Meal.find({});
-    const randommeal=[];
-    const randomsayilar=[];
-    promise.then((meal)=>{
-
-        for(i=0;i<random_number_count;i++)
+router.get('/random',(req,res,next)=>{
+    const promise=Meal.aggregate([
         {
-            const sayi=Math.floor(Math.random()*meal.length);
-            if(randomsayilar.includes(sayi))
-            {
-               
-                while(true)
-                {
-                    
-                    const sayi=Math.floor(Math.random()*meal.length);
-                    if(!randomsayilar.includes(sayi))
-                    {
-                        randomsayilar.push(sayi);
-                        randommeal.push(meal[i]);
-                        break;
-                    }
-                    
-                }
-            }
-            else{
-                randomsayilar.push(sayi);
-                randommeal.push(meal[i])
-            }
+            $match:{}
+        },
+        {
+            $sample:{size:3}
         }
-        res.json(randommeal);
+    ]);
+
+    promise.then((e)=>{
+        res.json(e)
     }).catch((err)=>{
         res.json(err);
-    })
+    }) 
 
 })
 
 router.get('/pratic',(req,res,next)=>{
-    const promise=Meal.find({time:{$lte:30}});
+    
+    const promise=Meal.aggregate([
+        {
+            $match:{
+                time:{$lte:30}
+            }
+        },
+        {
+            $sample:{
+                size:5
+            }
+        }
+    
+    ]).sort({time:1});
+
     promise.then((meal)=>{
     if(!meal)
     res.json({message:"not found"})    
@@ -246,24 +242,66 @@ router.get('/pratic',(req,res,next)=>{
 
 
 router.get('/mostpopular',(req,res,next)=>{
-    const promise=Meal.find({}).sort({favs:-1}).limit(10);
+    const promise=Meal.aggregate([
+        {
+            $match:{}
+        },
+        {
+            $lookup:{
+                from:'favs',
+                localField:'_id',
+                foreignField:'mealId',
+                as:'data'
+
+            }
+
+        },
+        {
+            $group:{
+                    
+                    _id:{
+                        _id:'$_id',
+                        name:'$name',
+                        time:'$time',
+                        image:'$image',
+                        cuisine:'$cuisine',
+                        data:'$data'
+                        
+                    }
+                    
+            }
+
+        }
+    
+    ]);
+    
+
+    //const promise=Meal.find({}).sort({favs:1}).limit(5);
     promise.then((meal)=>{
         if(!meal)
+        {
         res.json({message:"not found"})
-
-        res.json(meal)
+        }
+        var favscount=[];
+        meal.map((e)=>{
+            console.log(e._id.data.length);
+            favscount.push({meal:e,fav_count:e._id.data.length})
+        })
+        
+        favscount=favscount.sort((a,b)=>a.fav_count>b.fav_count ? -1:1)
+        res.json(favscount.slice(0,5).reverse())
     }).catch((err)=>{
         res.json(err);
     })
 })
 
 router.get('/newadded',(req,res,next)=>{
-    const promise=Meal.find({}).sort({date:-1}).limit(10);
+    const promise=Meal.find({}).sort({date:-1}).limit(5);
     promise.then((meal)=>{
         if(!meal)
         res.json({message:"not found"})
 
-        res.json(meal);
+        res.json(meal.reverse());
     }).catch((err)=>{
         res.json(err);
     })
